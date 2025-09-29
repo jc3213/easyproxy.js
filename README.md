@@ -49,7 +49,7 @@ let { pacScript } = profile;
 
 ### new
 ```javascript
-profile.new(string[]);
+profile.new(string | string[]);
 ```
 
 ### add
