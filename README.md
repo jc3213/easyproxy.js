@@ -30,14 +30,14 @@ profile.proxy = 'SOCKS 127.0.0.1:1080';
 - `array`
 - **read only**
 ```javascript
-let { data } = match;
+let { data } = profile;
 ```
 
 ### pacScript
 - `string`
 - **read only**
 ```javascript
-let { pacScript } = match;
+let { pacScript } = profile;
 ```
 
 ## Method
@@ -80,14 +80,14 @@ let result = profile.test(string);
 - `Map`
 - **readonly**
 ```javascript
-let { caches } = easyproxy;
+let { caches } = EasyProxy;
 ```
 
 ### pacScript
 - `string`
 - **read only**
 ```javascript
-let { pacScript } = match;
+let { pacScript } = EasyProxy;
 ```
 
 ## Static Method
@@ -113,7 +113,7 @@ EasyProxy.delete(string | string[]);
 ## MatchPattern
 - `example.com`
    - Matches `www.example.com`, `example.com`
-   - Doesn't Match `test-example.com`, `www.example.com.cn`
+   - Exclude `test-example.com`, `www.example.com.cn`
 
 | Match Pattern ↓  | www.youtube.com | www.facebook.net | x.com | telegram.org |
 |------------------|-----------------|------------------|-------|--------------|
