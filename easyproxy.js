@@ -3,7 +3,6 @@ class EasyProxy {
         EasyProxy.#instances.push(this);
     }
     version = '1.0';
-    locked = false;
     #set = new Set();
     #data = [];
     #test = [];
@@ -98,7 +97,7 @@ class EasyProxy {
     }
     static delete (arg) {
         let remove = new Set(Array.isArray(arg) ? arg : [arg]);
-        EasyProxy.#instances = EasyProxy.#instances.filter((that) => !that.locked && !remove.has(that.proxy));
+        EasyProxy.#instances = EasyProxy.#instances.filter((that) => !remove.has(that.proxy));
     }
     static get pacScript () {
         let pac = EasyProxy.#instances.map((that) => that.#pacScript).join('\n');
