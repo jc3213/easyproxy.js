@@ -18,6 +18,9 @@
 
 ## Syntax
 ```javascript
+let profile = new EasyProxy('HTTP 127.0.0.1:1080');
+```
+```javascript
 let profile = new EasyProxy();
 profile.proxy = 'SOCKS 127.0.0.1:1080';
 ```
