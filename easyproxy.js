@@ -36,7 +36,7 @@ function FindProxyForURL(url, host) {
 
     set proxy(string) {
         this.#proxy = string;
-        this.#build();
+        this.#make();
     }
     get proxy() {
         return this.#proxy;
@@ -86,13 +86,13 @@ function FindProxyForURL(url, host) {
         EasyProxy.#instances = EasyProxy.#instances.filter((i) => !remove.includes(i.#proxy));
     }
 
-    #update() {
+    #sync() {
         this.#empty = this.#data.size === 0;
         this.#global = this.#data.has('*');
-        this.#build();
+        this.#make();
     }
 
-    #build() {
+    #make() {
         if (!this.#empty) {
             this.#pacScript = this.data.map((i) => `    "${i}": "${this.#proxy}"`).join(',\n');
         }
@@ -100,17 +100,17 @@ function FindProxyForURL(url, host) {
 
     new(arg) {
         this.#data = new Set(Array.isArray(arg) ? arg : [arg]);
-        this.#update();
+        this.#sync();
     }
 
     add(arg) {
         Array.isArray(arg) ? arg.forEach((i) => this.#data.add(i)) : this.#data.add(arg);
-        this.#update();
+        this.#sync();
     }
 
     delete(arg) {
         Array.isArray(arg) ? arg.forEach((i) => this.#data.delete(i)) : this.#data.delete(arg);
-        this.#update();
+        this.#sync();
     }
 
     clear() {
