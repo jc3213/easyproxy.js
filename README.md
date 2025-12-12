@@ -47,12 +47,14 @@ let { pacScript } = profile;
 - [new](#new)
 - [add](#add)
 - [delete](#delete)
-- [clear](#clear)
 - [test](#test)
 
 ### new
 ```javascript
 profile.new(string | string[]);
+```
+```javascript
+profile.new(); // Clear all rules
 ```
 
 ### add
@@ -65,11 +67,6 @@ profile.add(string | string[]);
 profile.delete(string | string[]);
 ```
 
-### clear
-```javascript
-profile.clear();
-```
-
 ### test
 ```javascript
 let result = profile.test(string);
@@ -78,13 +75,6 @@ let result = profile.test(string);
 ## Static Properties
 - [caches](#caches)
 - [pacScript](#pacScript-1)
-
-### caches
-- `Map`
-- **readonly**
-```javascript
-let { caches } = EasyProxy;
-```
 
 ### pacScript
 - `string`
