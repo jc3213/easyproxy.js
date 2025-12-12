@@ -10,13 +10,12 @@ function FindProxyForURL(url, host) {
             RULES[host] = hit;
             return hit;
         }
-        var dot = host.indexOf(".");
+        var dot = src.indexOf(".");
         if (dot < 0) {
-            break;
+            return "DIRECT";
         }
         src = src.substring(dot + 1);
     }
-    return "DIRECT";
 }
 `;
     #data = new Set();
@@ -47,7 +46,7 @@ function FindProxyForURL(url, host) {
             ? 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}'
             : this.#global
             ? `function FindProxyForURL(url, host) {\n    return "${this.#proxy}";\n}`
-            : `var RULES = {\n${this.#pacScript}\n};\n${EasyProxy.#pacBody}`;
+            : `var RULES = {\n${this.#pacScript};\n};\n${EasyProxy.#pacBody}`;
     }
 
     static get pacScript() {
@@ -87,14 +86,14 @@ function FindProxyForURL(url, host) {
     }
 
     static delete(arg) {
-        let remove = new Set(Array.isArray(arg) ? arg : [arg]);
-        let result = [];
+        let del = new Set(Array.isArray(arg) ? arg : [arg]);
+        let arr = [];
         for (let i of EasyProxy.#instances) {
-            if (!remove.has(i.#proxy)) {
-                result.push(i);
+            if (!del.has(i.#proxy)) {
+                arr.push(i);
             }
         }
-        EasyProxy.#instances = result;
+        EasyProxy.#instances = arr;
     }
 
     #sync() {
@@ -107,44 +106,33 @@ function FindProxyForURL(url, host) {
         if (this.#empty) {
             return;
         }
-        let result = [];
+        let rules = [];
         for (let i of this.#data) {
-            result.push(`    "${i}": "${this.#proxy}"`);
+            rules.push(`    "${i}": "${this.#proxy}"`);
         }
-        this.#pacScript = result.join(',\n');
+        this.#pacScript = rules.join(',\n');
     }
 
     new(arg) {
-        this.#data = new Set();
-        this.add(arg);
+        let neo = Array.isArray(arg) ? arg : typeof arg === 'string' ? [arg] : [];
+        this.#data = new Set(neo);
+        this.#sync();
     }
 
     add(arg) {
-        if (Array.isArray(arg)) {
-            for (let i of arg) {
-                this.#data.add(i);
-            }
-        } else {
-            this.#data.add(arg);
+        let add = Array.isArray(arg) ? arg : typeof arg === 'string' ? [arg] : [];
+        for (let i of add) {
+            this.#data.add(i);
         }
         this.#sync();
     }
 
     delete(arg) {
-        if (Array.isArray(arg)) {
-            for (let i of arg) {
-                this.#data.delete(i);
-            }
-        } else {
-            this.#data.delete(arg);
+        let del = Array.isArray(arg) ? arg : typeof arg === 'string' ? [arg] : [];
+        for (let i of del) {
+            this.#data.delete(i);
         }
         this.#sync();
-    }
-
-    clear() {
-        this.#data = new Set();
-        this.#empty = true;
-        this.#global = false;
     }
 
     test(host) {
