@@ -22,7 +22,8 @@ let profile = new EasyProxy('HTTP 127.0.0.1:1230');
 ```
 
 ## Properties
-- [data](#data)
+- [proxy](#proxy)
+- [rules](#rules)
 - [pacScript](#pacScript)
 
 ### proxy
