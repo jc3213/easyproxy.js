@@ -18,22 +18,25 @@
 
 ## Syntax
 ```javascript
-let profile = new EasyProxy('HTTP 127.0.0.1:1080');
-```
-```javascript
-let profile = new EasyProxy();
-profile.proxy = 'SOCKS 127.0.0.1:1080';
+let profile = new EasyProxy('HTTP 127.0.0.1:1230');
 ```
 
 ## Properties
 - [data](#data)
 - [pacScript](#pacScript)
 
-### data
-- `array`
+### proxy
+- `string`
 - **read only**
 ```javascript
-let { data } = profile;
+let { proxy } = profile;
+```
+
+### rules
+- `object`
+- **read only**
+```javascript
+let { rules } = profile;
 ```
 
 ### pacScript
@@ -73,7 +76,6 @@ let result = profile.test(string);
 ```
 
 ## Static Properties
-- [caches](#caches)
 - [pacScript](#pacScript-1)
 
 ### pacScript
