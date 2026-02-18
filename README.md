@@ -23,7 +23,7 @@ let profile = new EasyProxy('HTTP 127.0.0.1:1230');
 
 ## Properties
 - [proxy](#proxy)
-- [rules](#rules)
+- [route](#route)
 - [pacScript](#pacScript)
 
 ### proxy
@@ -33,11 +33,11 @@ let profile = new EasyProxy('HTTP 127.0.0.1:1230');
 let { proxy } = profile;
 ```
 
-### rules
+### route
 - `object`
 - **read only**
 ```javascript
-let { rules } = profile;
+let { route } = profile;
 ```
 
 ### pacScript
@@ -52,6 +52,7 @@ let { pacScript } = profile;
 - [add](#add)
 - [delete](#delete)
 - [test](#test)
+- [destroy](#destroy)
 
 ### new
 ```javascript
@@ -76,6 +77,11 @@ profile.delete(string | string[]);
 let result = profile.test(string);
 ```
 
+### destroy
+```javascript
+profile.destroy();
+```
+
 ## Static Properties
 - [pacScript](#pacScript-1)
 
@@ -89,7 +95,6 @@ let { pacScript } = EasyProxy;
 ## Static Method
 - [test](#test-2)
 - [make](#make)
-- [delete](#delete)
 
 ### test
 ```javascript
@@ -99,11 +104,6 @@ let result = EasyProxy.test(string);
 ### make
 ```javascript
 let rule = EasyProxy.make(string);
-```
-
-### delete
-```javascript
-EasyProxy.delete(string | string[]);
 ```
 
 ## MatchPattern
