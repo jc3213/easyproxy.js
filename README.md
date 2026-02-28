@@ -51,7 +51,7 @@ let { pacScript } = profile;
 - [new](#new)
 - [add](#add)
 - [delete](#delete)
-- [test](#test)
+- [match](#match)
 - [destroy](#destroy)
 
 ### new
@@ -72,9 +72,9 @@ profile.add(string | string[]);
 profile.delete(string | string[]);
 ```
 
-### test
+### match
 ```javascript
-let result = profile.test(string);
+let result = profile.match(string);
 ```
 
 ### destroy
@@ -93,12 +93,12 @@ let { pacScript } = EasyProxy;
 ```
 
 ## Static Method
-- [test](#test-2)
+- [match](#test-2)
 - [make](#make)
 
-### test
+### match
 ```javascript
-let result = EasyProxy.test(string);
+let result = EasyProxy.match(string);
 ```
 
 ### make
