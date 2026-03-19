@@ -18,68 +18,80 @@
 
 ## Syntax
 ```javascript
-let profile = new EasyProxy('HTTP 127.0.0.1:1230');
+let manager = new EasyProxy();
 ```
 
 ## Properties
-- [proxy](#proxy)
-- [route](#route)
+- [rules](#rules)
+- [routing](#routing)
 - [pacScript](#pacScript)
 
-### proxy
-- `string`
+### rules
+- `map`
 - **read only**
 ```javascript
-let { proxy } = profile;
+let { rules } = manager;
 ```
 
-### route
+### routing
 - `object`
 - **read only**
 ```javascript
-let { route } = profile;
+let { routing } = manager;
 ```
 
 ### pacScript
 - `string`
 - **read only**
 ```javascript
-let { pacScript } = profile;
+let { pacScript } = manager;
 ```
 
 ## Method
 - [new](#new)
 - [add](#add)
 - [delete](#delete)
-- [match](#match)
+- [remove](#remove)
 - [destroy](#destroy)
+- [match](#match)
+- [getScript](#getScript)
 
 ### new
 ```javascript
-profile.new(string | string[]);
+profile.new(proxy | string"");
 ```
 ```javascript
-profile.new(); // Clear all rules
+manager.new(proxy | string"", rules | array[]);
 ```
 
 ### add
 ```javascript
-profile.add(string | string[]);
+manager.add(proxy | string"", rule | string"");
 ```
 
 ### delete
 ```javascript
-profile.delete(string | string[]);
+manager.delete(proxy | string"", rule | string"");
 ```
 
-### match
+### remove
 ```javascript
-let result = profile.match(string);
+manager.removee(proxy | string"");
 ```
 
 ### destroy
 ```javascript
-profile.destroy();
+manager.destroy();
+```
+
+### match
+```javascript
+let result = manager.match(host | string"");
+```
+
+### getScript
+```javascript
+let pasScript = manager.getScript(proxy | string"");
 ```
 
 ## Static Properties
@@ -93,13 +105,7 @@ let { pacScript } = EasyProxy;
 ```
 
 ## Static Method
-- [match](#test-2)
 - [make](#make)
-
-### match
-```javascript
-let result = EasyProxy.match(string);
-```
 
 ### make
 ```javascript
