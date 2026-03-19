@@ -3,8 +3,12 @@ class EasyProxy {
     static #etld = new Set([ 'ac', 'co', 'com', 'edu', 'go', 'gov', 'ne', 'net', 'or', 'org', 'sch' ]);
     static #pasScript = `
 function FindProxyForURL(url, host) {
+    var hit = RULES["*"];
+    if (hit) {
+        return hit;
+    }
     while (true) {
-        var hit = RULES[host];
+        hit = RULES[host];
         if (hit) {
             return hit;
         }
@@ -127,6 +131,9 @@ function FindProxyForURL(url, host) {
     }
 
     match(host) {
+        if (this.#routing['*']) {
+            return true;
+        }
         while (true) {
             if (this.#routing[host]) {
                 return true;
