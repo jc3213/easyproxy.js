@@ -52,10 +52,6 @@ function FindProxyForURL(url, host) {
         EasyProxy.#instances.add(this);
     }
 
-    get rules() {
-        return this.#rules;
-    }
-
     get routing() {
         return this.#routing;
     }
@@ -77,15 +73,20 @@ function FindProxyForURL(url, host) {
         return `var RULES = {\n${script.join(',\n')}\n};\n${EasyProxy.#pasScript}`;;
     }
 
-    new(proxy, rules = []) {
-        let legacy = this.#rules.get(proxy);
-        if (legacy) {
-            for (let i of legacy) {
+    getRules(proxy) {
+        return [...this.#rules.get(proxy)];
+    }
+
+    new(proxy, rules) {
+        let prev = this.#rules.get(proxy);
+        if (prev) {
+            for (let i of prev) {
                 delete this.#routing[i];
             }
         }
-        this.#rules.set(proxy, new Set(rules));
-        for (let r of rules) {
+        let next = new Set(rules);
+        this.#rules.set(proxy, next);
+        for (let r of next) {
             this.#routing[r] = proxy;
         }
         return proxy;
@@ -112,6 +113,7 @@ function FindProxyForURL(url, host) {
             return false;
         }
         this.#rules.get(proxy).delete(rule);
+        delete this.#routing[rule];
         return true;
     }
 
@@ -120,10 +122,10 @@ function FindProxyForURL(url, host) {
         if (!rules) {
             return false;
         }
+        this.#rules.delete(proxy);
         for (let r of rules) {
             delete this.#routing[r];
         }
-        this.#rules.delete(proxy);
         return true;
     }
 
