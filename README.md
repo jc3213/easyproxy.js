@@ -69,7 +69,7 @@ router.delete(proxy | string"", rule | string"");
 
 ### remove
 ```javascript
-router.removee(proxy | string"");
+router.remove(proxy | string"");
 ```
 
 ### destroy
