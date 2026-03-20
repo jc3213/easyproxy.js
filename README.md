@@ -18,33 +18,25 @@
 
 ## Syntax
 ```javascript
-let manager = new EasyProxy();
+let router = new EasyProxy();
 ```
 
 ## Properties
-- [rules](#rules)
 - [routing](#routing)
 - [pacScript](#pacScript)
-
-### rules
-- `map`
-- **read only**
-```javascript
-let { rules } = manager;
-```
 
 ### routing
 - `object`
 - **read only**
 ```javascript
-let { routing } = manager;
+let { routing } = router;
 ```
 
 ### pacScript
 - `string`
 - **read only**
 ```javascript
-let { pacScript } = manager;
+let { pacScript } = router;
 ```
 
 ## Method
@@ -54,44 +46,50 @@ let { pacScript } = manager;
 - [remove](#remove)
 - [destroy](#destroy)
 - [match](#match)
+- [getRules](#getRules)
 - [getScript](#getScript)
 
 ### new
 ```javascript
-profile.new(proxy | string"");
+router.new(proxy | string"");
 ```
 ```javascript
-manager.new(proxy | string"", rules | array[]);
+router.new(proxy | string"", rules | array[]);
 ```
 
 ### add
 ```javascript
-manager.add(proxy | string"", rule | string"");
+router.add(proxy | string"", rule | string"");
 ```
 
 ### delete
 ```javascript
-manager.delete(proxy | string"", rule | string"");
+router.delete(proxy | string"", rule | string"");
 ```
 
 ### remove
 ```javascript
-manager.removee(proxy | string"");
+router.removee(proxy | string"");
 ```
 
 ### destroy
 ```javascript
-manager.destroy();
+router.destroy();
 ```
 
 ### match
 ```javascript
-let result = manager.match(host | string"");
+let result = router.match(host | string"");
+```
+
+### getRules
+```javascript
+let rules = router.getRules(proxy | string"");
 ```
 
 ### getScript
 ```javascript
-let pasScript = manager.getScript(proxy | string"");
+let pasScript = router.getScript(proxy | string"");
 ```
 
 ## Static Properties
