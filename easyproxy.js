@@ -3,12 +3,8 @@ class EasyProxy {
     static #etld = new Set([ 'ac', 'co', 'com', 'edu', 'go', 'gov', 'ne', 'net', 'or', 'org', 'sch' ]);
     static #pasScript = `
 function FindProxyForURL(url, host) {
-    var hit = RULES["*"];
-    if (hit) {
-        return hit;
-    }
     while (true) {
-        hit = RULES[host];
+        var hit = RULES[host];
         if (hit) {
             return hit;
         }
@@ -24,6 +20,10 @@ function FindProxyForURL(url, host) {
     static get pacScript() {
         let rules = [];
         for (let i of EasyProxy.#instances) {
+            let proxy = i.#routing['*'];
+            if (proxy) {
+                return `function FindProxyForURL(url, host) {\n    return "${proxy}";\n}\n`;
+            }
             let rule = JSON.stringify(i.#routing, null, 4).slice(2, -2);
             if (rule) {
                 rules.push(rule);
@@ -59,14 +59,23 @@ function FindProxyForURL(url, host) {
     }
 
     get pacScript() {
+        let proxy = this.#routing['*'];
+        if (proxy) {
+            return `function FindProxyForURL(url, host) {\n    return "${proxy}";\n}\n`;
+        }
         let script = JSON.stringify(this.#routing, null, 4).slice(2, -2);
-        return `var RULES = {\n${script}\n};\n${EasyProxy.#pasScript}`;
+        return script
+            ? `var RULES = {\n${script}\n};\n${EasyProxy.#pasScript}`
+            : 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
     }
 
     getScript(proxy) {
         let rules = this.#rules.get(proxy);
         if (!rules) {
             return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
+        }
+        if (rules.has('*')) {
+            return `function FindProxyForURL(url, host) {\n    return "${proxy}";\n}\n`;
         }
         let script = [];
         for (let r of rules) {
@@ -91,13 +100,13 @@ function FindProxyForURL(url, host) {
         for (let r of next) {
             this.#routing[r] = proxy;
         }
-        return proxy;
+        return true;
     }
 
     add(proxy, rule) {
         let find = this.#routing[rule];
         if (find) {
-            return find;
+            return false;
         }
         let rules = this.#rules.get(proxy);
         if (rules) {
@@ -106,7 +115,7 @@ function FindProxyForURL(url, host) {
             this.#rules.set(proxy, new Set([rule]));
         }
         this.#routing[rule] = proxy;
-        return proxy;
+        return true;
     }
 
     delete(proxy, rule) {
@@ -135,12 +144,10 @@ function FindProxyForURL(url, host) {
         this.#rules = new Map();
         this.#routing = {};
         EasyProxy.#instances.delete(this);
+        return true;
     }
 
     match(host) {
-        if (this.#routing['*']) {
-            return true;
-        }
         while (true) {
             if (this.#routing[host]) {
                 return true;
