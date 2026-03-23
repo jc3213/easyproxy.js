@@ -1,4 +1,4 @@
-name: Minify easyproxy.js
+name: minify-easyproxy.js
 
 on:
   push:
