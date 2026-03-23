@@ -6,13 +6,13 @@ on:
       - main
     paths:
       - 'easyproxy.js'
-  workflow_dispatch:   # 允许手动触发
+  workflow_dispatch:
 
 permissions:
-  contents: write      # 允许 Actions 推送代码
+  contents: write
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # 强制使用 Node.js 24
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'   # 显式指定 Node.js 24
+          node-version: '24'
 
       - run: npm install -g terser
 
