@@ -1,0 +1,29 @@
+name: Minify easyproxy.js
+
+on:
+  push:
+    paths:
+      - 'easyproxy.js'
+    paths-ignore:
+      - 'easyproxy.min.js'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install -g terser
+
+      - run: npx terser easyproxy.js -o easyproxy.min.js
+
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add easyproxy.min.js
+          git commit -m "Add minified easyproxy.js"
+          git push
