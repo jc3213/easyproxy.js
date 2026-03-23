@@ -23,7 +23,7 @@ let router = new EasyProxy();
 
 ## Properties
 - [routing](#routing)
-- [pacscript](#pacScript)
+- [pacScript](#pacscript)
 
 ### routing
 - `object`
