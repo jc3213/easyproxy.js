@@ -43,7 +43,6 @@ let { pacScript } = router;
 - [new](#new)
 - [add](#add)
 - [delete](#delete)
-- [find](#find)
 - [remove](#remove)
 - [purge](#purge)
 - [destroy](#destroy)
@@ -67,11 +66,6 @@ router.add(proxy | string"", rule | string"");
 ### delete
 ```javascript
 router.delete(proxy | string"", rule | string"");
-```
-
-### find
-```javascript
-let proxy = router.find(rule | string"");
 ```
 
 ### remove
