@@ -119,7 +119,7 @@ let { pacScript } = EasyProxy;
 
 ### make
 ```javascript
-let rule = EasyProxy.make(string);
+let rule = EasyProxy.make(host | string"");
 ```
 
 ## MatchPattern
