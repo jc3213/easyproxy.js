@@ -49,7 +49,7 @@ function FindProxyForURL(url, host) {
 
     #rules = new Map();
     #routing = {};
-
+console.log(1);
     constructor() {
         EasyProxy.#instances.add(this);
     }
