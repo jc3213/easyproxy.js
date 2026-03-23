@@ -2,9 +2,9 @@
 
 ## Usage
 
-| Lastest | Extension |
-| - | - |
-| [easyproxy.js](https://jc3213.github.io/easyproxy.js/easyproxy.js) | [Easy Proxy](https://github.com/jc3213/easy_proxy) |
+| Lastest | Minified | Extension |
+| - | - | - | 
+| [easyproxy.js](https://jc3213.github.io/easyproxy.js/easyproxy.js) | [easyproxy.min.js](https://jc3213.github.io/easyproxy.js/easyproxy.min.js) | [Easy Proxy](https://github.com/jc3213/easy_proxy) |
 
 ### HTML
 ```HTML
