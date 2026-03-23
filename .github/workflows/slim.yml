@@ -4,8 +4,7 @@ on:
   push:
     paths:
       - 'easyproxy.js'
-    paths-ignore:
-      - 'easyproxy.min.js'
+  workflow_dispatch:
 
 jobs:
   build:
