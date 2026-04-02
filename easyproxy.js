@@ -156,12 +156,13 @@ function FindProxyForURL(url, host) {
 
     match(host) {
         while (true) {
-            if (this.#routing[host]) {
-                return true;
+            let proxy = this.#routing[host];
+            if (proxy) {
+                return proxy;
             }
             let dot = host.indexOf('.');
             if (dot < 0) {
-                return false;
+                return;
             }
             host = host.substring(dot + 1);
         }
