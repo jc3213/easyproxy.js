@@ -17,10 +17,10 @@ function FindProxyForURL(url, host) {
 }
 `;
 
-    static get pacScript() {
+    static #build(instances) {
         let proxies = [];
         let scripts = [];
-        for (let i of EasyProxy.#instances) {
+        for (let i of instances) {
             let global = i.#routing['*'];
             if (global) {
                 return `function FindProxyForURL(url, host) {\n    return "${global}";\n}\n`;
@@ -40,6 +40,10 @@ function FindProxyForURL(url, host) {
             return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
         }
         return `${proxies.join('\n')}\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${EasyProxy.#pasScript}`;
+    }
+
+    static get pacScript() {
+        return EasyProxy.#build(EasyProxy.#instances);
     }
 
     static make(host) {
@@ -67,26 +71,7 @@ function FindProxyForURL(url, host) {
     }
 
     get pacScript() {
-        let proxy = this.#routing['*'];
-        if (proxy) {
-            return `function FindProxyForURL(url, host) {\n    return "${proxy}";\n}\n`;
-        }
-        let proxies = [];
-        let scripts = [];
-        for (let [proxy, rules] of this.#rules) {
-            if (rules.size === 0) {
-                continue;
-            }
-            let id = `PROXY${proxies.length}`;
-            proxies.push(`var ${id} = "${proxy}";`);
-            for (let r of rules) {
-                scripts.push(`    "${r}": ${id}`);
-            }
-        }
-        if (proxies.length === 0) {
-            return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
-        }
-        return `${proxies.join('\n')}\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${EasyProxy.#pasScript}`;
+        return EasyProxy.#build([this]);
     }
 
     getScript(proxy) {
