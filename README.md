@@ -110,10 +110,16 @@ let { pacScript } = EasyProxy;
 
 ## Static Method
 - [make](#make)
+- [getScript](#getscript-1)
 
 ### make
 ```javascript
 let rule = EasyProxy.make(host | string"");
+```
+
+### getScript
+```javascript
+let pacScript = EasyProxy.getScript(Array[ router | instance ]);
 ```
 
 ## MatchPattern
