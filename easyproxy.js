@@ -182,7 +182,7 @@ function FindProxyForURL(url, host) {
         if (rules) {
             return [...rules];
         }
-        if (proxy !== null) {
+        if (proxy !== null && proxy !== undefined) {
             return [];
         }
         rules = [];
