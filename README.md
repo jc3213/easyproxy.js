@@ -40,52 +40,62 @@ let { pacScript } = router;
 ```
 
 ## Method
-- [new](#new)
-- [add](#add)
-- [delete](#delete)
-- [remove](#remove)
-- [purge](#purge)
-- [destroy](#destroy)
-- [match](#match)
-- [getRules](#getrules)
 - [getScript](#getscript)
+- [addProxy](#addproxy)
+- [removeProxy](#removeproxy)
+- [hasProxy](#hasproxy)
+- [listProxies](#listproxies)
+- [findProxy](#findproxy)
+- [addRule](#addrule)
+- [removeRule](#removerule)
+- [hasRule](#hasrule)
+- [getRules](#getrules)
+- [purgeRules](#purgerules)
+- [destroy](#destroy)
 
-### new
+### getScript
 ```javascript
-router.new(proxy | string"");
-```
-```javascript
-router.new(proxy | string"", rules | array[]);
-```
-
-### add
-```javascript
-router.add(proxy | string"", rule | string"");
-```
-
-### delete
-```javascript
-router.delete(proxy | string"", rule | string"");
+router.getScript(proxy | string"");
 ```
 
-### remove
+### addProxy
 ```javascript
-router.remove(proxy | string"");
+router.addProxy(proxy | string"", rule | Array[] | null);
 ```
 
-### purge
+### removeProxy
 ```javascript
-router.purge();
+router.removeProxy(proxy | string"");
 ```
 
-### destroy
+### hasProxy
 ```javascript
-router.destroy();
+let result = router.hasProxy(proxy | string"");
 ```
 
-### match
+### listProxies
 ```javascript
-let result = router.match(host | string"");
+let proxies = router.listProxies();
+```
+
+### findProxy
+```javascript
+let result = router.findProxy(hostname | location.hostname | string"");
+```
+
+### addRule
+```javascript
+router.addRule(proxy | string"", rule | string"");
+```
+
+### removeRule
+```javascript
+router.removeRule(proxy | string"", rule | string"");
+```
+
+### hasRule
+```javascript
+let result = router.hasRule(rule | string"");
 ```
 
 ### getRules
@@ -93,9 +103,26 @@ let result = router.match(host | string"");
 let rules = router.getRules(proxy | string"");
 ```
 
+### purgeRules
+```javascript
+router.purgeRules();
+```
+
+### match
+```javascript
+let result = router.match(host | string"");
+```
+
+
+
 ### getScript
 ```javascript
 let pasScript = router.getScript(proxy | string"");
+```
+
+### destroy
+```javascript
+router.destroy();
 ```
 
 ## Static Properties
