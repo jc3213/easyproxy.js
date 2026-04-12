@@ -95,14 +95,6 @@ function FindProxyForURL(url, host) {
         return `var PROXY = "${proxy}";\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${EasyProxy.#pasScript}`;;
     }
 
-    listProxies() {
-        return [...this.#rules.keys()];
-    }
-
-    hasProxy(proxy) {
-        return this.#rules.has(proxy);
-    }
-
     addProxy(proxy, rules) {
         let prev = this.#rules.get(proxy);
         if (prev) {
@@ -134,6 +126,14 @@ function FindProxyForURL(url, host) {
         return true;
     }
 
+    hasProxy(proxy) {
+        return this.#rules.has(proxy);
+    }
+
+    listProxies() {
+        return [...this.#rules.keys()];
+    }
+
     findProxy(host) {
         while (true) {
             let proxy = this.#routing[host];
@@ -146,32 +146,6 @@ function FindProxyForURL(url, host) {
             }
             host = host.substring(dot + 1);
         }
-    }
-
-    getRules(proxy) {
-        let rules = this.#rules.get(proxy);
-        if (rules) {
-            return [...rules];
-        }
-        if (proxy !== null) {
-            return [];
-        }
-        rules = [];
-        for (let [proxy, ruleSet] of this.#rules) {
-            rules.push([proxy, [...ruleSet]]);
-        }
-        return rules;
-    }
-
-    purgeRules() {
-        for (let k of this.#rules.keys()) {
-            this.#rules.set(k, new Set());
-        }
-        this.#routing = {};
-    }
-
-    hasRule(rule) {
-        return rule in this.#routing;
     }
 
     addRule(proxy, rule) {
@@ -197,6 +171,32 @@ function FindProxyForURL(url, host) {
         this.#rules.get(proxy).delete(rule);
         delete this.#routing[rule];
         return true;
+    }
+
+    hasRule(rule) {
+        return rule in this.#routing;
+    }
+
+    getRules(proxy) {
+        let rules = this.#rules.get(proxy);
+        if (rules) {
+            return [...rules];
+        }
+        if (proxy !== null) {
+            return [];
+        }
+        rules = [];
+        for (let [proxy, ruleSet] of this.#rules) {
+            rules.push([proxy, [...ruleSet]]);
+        }
+        return rules;
+    }
+
+    purgeRules() {
+        for (let k of this.#rules.keys()) {
+            this.#rules.set(k, new Set());
+        }
+        this.#routing = {};
     }
 
     destroy() {
