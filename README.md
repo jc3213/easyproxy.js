@@ -18,7 +18,7 @@
 
 ## Syntax
 ```javascript
-let router = new EasyProxy();
+const router = new EasyProxy();
 ```
 
 ## Properties
@@ -29,14 +29,14 @@ let router = new EasyProxy();
 - `object`
 - **read only**
 ```javascript
-let { routing } = router;
+const { routing } = router;
 ```
 
 ### pacScript
 - `string`
 - **read only**
 ```javascript
-let { pacScript } = router;
+const { pacScript } = router;
 ```
 
 ## Method
@@ -70,17 +70,17 @@ router.removeProxy(proxy | string"");
 
 ### hasProxy
 ```javascript
-let result = router.hasProxy(proxy | string"");
+const result = router.hasProxy(proxy | string"");
 ```
 
 ### listProxies
 ```javascript
-let proxies = router.listProxies();
+const proxies = router.listProxies();
 ```
 
 ### findProxy
 ```javascript
-let result = router.findProxy(hostname | location.hostname | string"");
+const result = router.findProxy(hostname | location.hostname | new URL().hostname | string"");
 ```
 
 ### addRule
@@ -95,12 +95,12 @@ router.removeRule(proxy | string"", rule | string"");
 
 ### hasRule
 ```javascript
-let result = router.hasRule(rule | string"");
+const result = router.hasRule(rule | string"");
 ```
 
 ### getRules
 ```javascript
-let rules = router.getRules(proxy | string"");
+const rules = router.getRules(proxy | string"");
 ```
 
 ### purgeRules
@@ -110,14 +110,14 @@ router.purgeRules();
 
 ### match
 ```javascript
-let result = router.match(host | string"");
+const result = router.match(host | string"");
 ```
 
 
 
 ### getScript
 ```javascript
-let pasScript = router.getScript(proxy | string"");
+const pasScript = router.getScript(proxy | string"");
 ```
 
 ### destroy
@@ -132,7 +132,7 @@ router.destroy();
 - `string`
 - **read only**
 ```javascript
-let { pacScript } = EasyProxy;
+const { pacScript } = EasyProxy;
 ```
 
 ## Static Method
@@ -141,12 +141,12 @@ let { pacScript } = EasyProxy;
 
 ### make
 ```javascript
-let rule = EasyProxy.make(host | string"");
+const rule = EasyProxy.make(hostname | location.hostname | new URL().hostname | string"");
 ```
 
 ### getScript
 ```javascript
-let pacScript = EasyProxy.getScript(Array[ router | instance ]);
+const pacScript = EasyProxy.getScript(Array[ router | instance ]);
 ```
 
 ## MatchPattern
