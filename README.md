@@ -103,17 +103,14 @@ const result = router.hasRule(rule | string"");
 const rules = router.getRules(proxy | string"");
 ```
 
+```javascript
+const object = router.getRules();
+```
+
 ### purgeRules
 ```javascript
 router.purgeRules();
 ```
-
-### match
-```javascript
-const result = router.match(host | string"");
-```
-
-
 
 ### getScript
 ```javascript
