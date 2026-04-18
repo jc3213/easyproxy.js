@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'easyproxy.js'
+      - 'easyproxy.ie11.js'
   workflow_dispatch:
 
 permissions:
@@ -27,6 +28,8 @@ jobs:
       - run: npm install -g terser
 
       - run: npx terser easyproxy.js -o easyproxy.min.js
+
+      - run: npx terser easyproxy.ie11.js -o easyproxy.ie11.min.js
 
       - run: |
           HASH=$(git log -n 1 --pretty=format:%h -- easyproxy.js)
