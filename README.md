@@ -55,17 +55,17 @@ const { pacScript } = router;
 
 ### getScript
 ```javascript
-router.getScript(proxy | string"");
+const pacScript = router.getScript(proxy | string"");
 ```
 
 ### addProxy
 ```javascript
-router.addProxy(proxy | string"", rule | Array[] | null);
+const result = router.addProxy(proxy | string"", rule | Array[] | null);
 ```
 
 ### removeProxy
 ```javascript
-router.removeProxy(proxy | string"");
+const result = router.removeProxy(proxy | string"");
 ```
 
 ### hasProxy
@@ -85,12 +85,12 @@ const result = router.findProxy(hostname | location.hostname | new URL().hostnam
 
 ### addRule
 ```javascript
-router.addRule(proxy | string"", rule | string"");
+const result = router.addRule(proxy | string"", rule | string"");
 ```
 
 ### removeRule
 ```javascript
-router.removeRule(proxy | string"", rule | string"");
+const result = router.removeRule(proxy | string"", rule | string"");
 ```
 
 ### hasRule
@@ -114,7 +114,7 @@ router.purgeRules();
 
 ### getScript
 ```javascript
-const pasScript = router.getScript(proxy | string"");
+const pacScript = router.getScript(proxy | string"");
 ```
 
 ### destroy
