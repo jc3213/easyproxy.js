@@ -15,7 +15,7 @@ var EasyProxy = (function() {
     };
     var pasScript = `
 function FindProxyForURL(url, host) {
-    while (true) {
+    for (;;) {
         var hit = RULES[host];
         if (hit) {
             return hit;
@@ -173,7 +173,7 @@ function FindProxyForURL(url, host) {
 
     initiator.prototype.findProxy = function(host) {
         var routing = this.props.routing;
-        while (true) {
+        for (;;) {
             var proxy = routing[host];
             if (proxy) {
                 return proxy;
