@@ -167,10 +167,6 @@ function FindProxyForURL(url, host) {
         return proxy in this.props.ruleMap;
     }
 
-    initiator.prototype.listProxies = function() {
-        return this.props.proxies;
-    }
-
     initiator.prototype.findProxy = function(host) {
         var routing = this.props.routing;
         for (;;) {
@@ -184,6 +180,10 @@ function FindProxyForURL(url, host) {
             }
             host = host.substring(dot + 1);
         }
+    }
+
+    initiator.prototype.listProxies = function() {
+        return this.props.proxies;
     }
 
     initiator.prototype.addRule = function(proxy, rule) {
