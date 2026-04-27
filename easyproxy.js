@@ -130,10 +130,6 @@ function FindProxyForURL(url, host) {
         return this.#rules.has(proxy);
     }
 
-    listProxies() {
-        return [...this.#rules.keys()];
-    }
-
     findProxy(host) {
         for (;;) {
             let proxy = this.#routing[host];
@@ -146,6 +142,10 @@ function FindProxyForURL(url, host) {
             }
             host = host.substring(dot + 1);
         }
+    }
+
+    listProxies() {
+        return [...this.#rules.keys()];
     }
 
     addRule(proxy, rule) {
