@@ -44,8 +44,8 @@ const { pacScript } = router;
 - [addProxy](#addproxy)
 - [removeProxy](#removeproxy)
 - [hasProxy](#hasproxy)
-- [listProxies](#listproxies)
 - [findProxy](#findproxy)
+- [listProxies](#listproxies)
 - [addRule](#addrule)
 - [removeRule](#removerule)
 - [hasRule](#hasrule)
@@ -61,16 +61,25 @@ const pacScript = router.getScript(proxy | string"");
 ### addProxy
 ```javascript
 const result = router.addProxy(proxy | string"", rule | Array[] | null);
+// true or false
 ```
 
 ### removeProxy
 ```javascript
 const result = router.removeProxy(proxy | string"");
+// true or false
 ```
 
 ### hasProxy
 ```javascript
 const result = router.hasProxy(proxy | string"");
+// true or false
+```
+
+### findProxy
+```javascript
+const result = router.findProxy(hostname | location.hostname | new URL().hostname | string"");
+// proxy or undefined
 ```
 
 ### listProxies
@@ -78,38 +87,39 @@ const result = router.hasProxy(proxy | string"");
 const proxies = router.listProxies();
 ```
 
-### findProxy
-```javascript
-const result = router.findProxy(hostname | location.hostname | new URL().hostname | string"");
-```
-
 ### addRule
 ```javascript
 const result = router.addRule(proxy | string"", rule | string"");
+// true or false
 ```
 
 ### removeRule
 ```javascript
 const result = router.removeRule(proxy | string"", rule | string"");
+// true or false
 ```
 
 ### hasRule
 ```javascript
 const result = router.hasRule(rule | string"");
+// true or false
 ```
 
 ### getRules
 ```javascript
 const rules = router.getRules(proxy | string"");
+// Array[]
 ```
 
 ```javascript
 const object = router.getRules();
+// Object{}
 ```
 
 ### purgeRules
 ```javascript
 router.purgeRules();
+// true or false
 ```
 
 ### getScript
