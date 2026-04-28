@@ -143,12 +143,12 @@ const { pacScript } = EasyProxy;
 ```
 
 ## Static Method
-- [make](#make)
+- [makeRule](#makerule)
 - [getScript](#getscript-1)
 
-### make
+### makeRule
 ```javascript
-const rule = EasyProxy.make(hostname | location.hostname | new URL().hostname | string"");
+const rule = EasyProxy.makeRule(hostname | location.hostname | new URL().hostname | string"");
 ```
 
 ### getScript
