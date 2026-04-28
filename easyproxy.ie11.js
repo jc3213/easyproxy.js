@@ -73,7 +73,7 @@ function FindProxyForURL(url, host) {
         return `${proxies.join('\n')}\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pasScript}`;
     }
 
-    initiator.make = function(host) {
+    initiator.makeRule = function(host) {
         var array = host.split('.');
         if (array.length < 2) {
             return host;
