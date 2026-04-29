@@ -13,7 +13,7 @@ var EasyProxy = (function() {
         "org": true,
         "sch": true
     };
-    var pasScript = `
+    var pacScript = `
 function FindProxyForURL(url, host) {
     for (;;) {
         var hit = RULES[host];
@@ -70,7 +70,7 @@ function FindProxyForURL(url, host) {
         if (proxies.length === 0) {
             return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
         }
-        return `${proxies.join('\n')}\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pasScript}`;
+        return `${proxies.join('\n')}\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pacScript}`;
     }
 
     initiator.makeRule = function(host) {
@@ -120,7 +120,7 @@ function FindProxyForURL(url, host) {
         for (var i = 0; i < rules.length; i++) {
             scripts.push(`    "${rules[i]}": PROXY`);
         }
-        return `var PROXY = "${proxy}";\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pasScript}`;;
+        return `var PROXY = "${proxy}";\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pacScript}`;;
     }
 
     initiator.prototype.addProxy = function(proxy, rules) {
