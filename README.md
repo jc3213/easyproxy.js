@@ -4,16 +4,16 @@
 
 | Lastest | Minified | Extension |
 | - | - | - | 
-| [easyproxy.js](https://jc3213.github.io/easyproxy.js/easyproxy.js) | [easyproxy.min.js](https://jc3213.github.io/easyproxy.js/easyproxy.min.js) | [Easy Proxy](https://github.com/jc3213/easy_proxy) |
+| [easyproxy.js](https://jc3213.github.io/easyproxy.js/src/easyproxy.js) | [easyproxy.min.js](https://jc3213.github.io/easyproxy.js/min/easyproxy.min.js) | [Easy Proxy](https://github.com/jc3213/easy_proxy) |
 
 ### HTML
 ```HTML
-<script src="https://jc3213.github.io/easyproxy.js/easyproxy.js"></script>
+<script src="https://jc3213.github.io/easyproxy.js/src/easyproxy.js"></script>
 ```
 
 ### TamperMonkey
 ```javascript
-// @require https://jc3213.github.io/easyproxy.js/easyproxy.js
+// @require https://jc3213.github.io/easyproxy.js/src/easyproxy.js
 ```
 
 ## Syntax
