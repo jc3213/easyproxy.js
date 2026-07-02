@@ -50,7 +50,8 @@ const { pacScript } = router;
 - [removeRule](#removerule)
 - [hasRule](#hasrule)
 - [getRules](#getrules)
-- [purgeRules](#purgerules)
+- [clearRules](#clearRules)
+- [listRules](#listRules)
 - [destroy](#destroy)
 
 ### getScript
@@ -116,11 +117,18 @@ const object = router.getRules();
 // Object{}
 ```
 
-### purgeRules
+### ciearRules
 ```javascript
-router.purgeRules();
+router.clearRules(proxy | string"" | null);
 // true or false
 ```
+
+### listRules
+```
+const rules = router.listRules();
+// Array[ [rules-0], [rules-1], ... ]
+```
+
 
 ### getScript
 ```javascript
