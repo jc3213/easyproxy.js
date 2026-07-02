@@ -35,33 +35,34 @@ function FindProxyForURL(url, host) {
 }
 `;
 
-    var properties = `{
-        "proxies": [],
-        "routing": {},
-        "ruleMap": {}
-    }`;
-
-    function initiator() {
+    function EasyProxy() {
         instances.push(this);
-        this.props = JSON.parse(properties);
+
+        this.props = {
+            proxies: [],
+            routing: {},
+            ruleMap: {}
+        };
     }
 
-    initiator.getScript = function(instances) {
+    EasyProxy.getScript = function(instances) {
+        console.log(instances);
         var proxies = [];
         var scripts = [];
 
-        for (var i = 0; i < instances.length; i++) {
+        for (var i = 0, l = instances.length; i < l; i++) {
             var instance = instances[i];
-            var global = instance.props.routing['*'];
-            var server = instance.props.proxies;
 
-            if (global) {
-                return `function FindProxyForURL(url, host) {\n    return "${global}";\n}\n`;
+            if ('*' in instance.props.routing) {
+                return 'function FindProxyForURL(url, host) {\n    return "' + global + '";\n}\n';
             }
 
-            for (var x = 0; x < server.length; x++) {
-                let proxy = server[x];
-                let rules = instance.props.ruleMap[proxy];
+            var ruleMap = instance.props.ruleMap;
+            var servers = instance.props.proxies;
+
+            for (var j = 0, m = servers.length; j < m; j++) {
+                let proxy = servers[j];
+                let rules = ruleMap[proxy];
 
                 if (rules.length === 0) {
                     continue;
@@ -70,13 +71,13 @@ function FindProxyForURL(url, host) {
                 if (proxy === 'DIRECT') {
                     var id = '"DIRECT"';
                 } else {
-                    id = `PROXY${proxies.length}`;
-                    proxies.push(`var ${id} = "${proxy}";`);
+                    id = 'PROXY' + proxies.length;
+                    proxies.push('var ' + id + ' = "' + proxy + '";');
                 }
 
-                for (var n = 0; n < rules.length; n++) {
-                    var r = rules[n];
-                    scripts[n] = `    "${r}": ${id}`;
+                for (var k = 0, n = rules.length; k < n; k++) {
+                    var r = rules[k];
+                    scripts.push('    "' + r + '": ' + id);
                 }
             }
         }
@@ -85,10 +86,10 @@ function FindProxyForURL(url, host) {
             return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
         }
 
-        return `${proxies.join('\n')}\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pacScript}`;
+        return proxies.join('\n') + '\n\nvar RULES = {\n' + scripts.join(',\n') + '\n};\n' + EasyProxy.#pacScript;
     }
 
-    initiator.makeRule = function(host) {
+    EasyProxy.makeRule = function(host) {
         var array = host.split('.');
 
         if (array.length < 2) {
@@ -100,31 +101,31 @@ function FindProxyForURL(url, host) {
         var tld = array.at(-1);
 
         if (sbd && sld in etld) {
-            return `${sbd}.${sld}.${tld}`;
+            return sbd + '.' + sld + '.' +tld;
         }
 
-        return `${sld}.${tld}`;
+        return sld + '.' +tld;
     }
 
-    Object.defineProperty(initiator, 'pacScript', {
+    Object.defineProperty(EasyProxy, 'pacScript', {
         get: function() {
-            return initiator.getScript(instances);
+            return EasyProxy.getScript(instances);
         }
     });
 
-    Object.defineProperty(initiator.prototype, 'routing', {
+    Object.defineProperty(EasyProxy.prototype, 'routing', {
         get: function() {
             return this.props.routing;
         }
     });
 
-    Object.defineProperty(initiator.prototype, 'pacScript', {
+    Object.defineProperty(EasyProxy.prototype, 'pacScript', {
         get: function() {
-            return initiator.getScript([this]);
+            return EasyProxy.getScript([this]);
         }
     });
 
-    initiator.prototype.getScript = function(proxy) {
+    EasyProxy.prototype.getScript = function(proxy) {
         var rules = this.props.ruleMap[proxy];
 
         if (!rules || rules.length === 0) {
@@ -132,7 +133,7 @@ function FindProxyForURL(url, host) {
         }
 
         if (this.props.routing['*'] === proxy) {
-            return `function FindProxyForURL(url, host) {\n    return "${proxy}";\n}\n`;
+            return 'function FindProxyForURL(url, host) {\n    return "' + proxy + '";\n}\n';
         }
 
         var scripts = [];
@@ -141,10 +142,10 @@ function FindProxyForURL(url, host) {
             scripts[i] = `    "${rules[i]}": PROXY`;
         }
 
-        return `var PROXY = "${proxy}";\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pacScript}`;;
+        return 'var PROXY = "' + proxy + '";\n\nvar RULES = {\n' + scripts.join(',\n') + '\n};\n' + EasyProxy.#pacScript;
     }
 
-    initiator.prototype.addProxy = function(proxy, rules) {
+    EasyProxy.prototype.addProxy = function(proxy, rules) {
         var routing = this.props.routing;
         var prev = this.props.ruleMap[proxy];
         var next = [];
@@ -175,7 +176,7 @@ function FindProxyForURL(url, host) {
         return true;
     }
 
-    initiator.prototype.removeProxy = function(proxy) {
+    EasyProxy.prototype.removeProxy = function(proxy) {
         var rules = this.props.ruleMap[proxy];
 
         if (!rules) {
@@ -194,11 +195,11 @@ function FindProxyForURL(url, host) {
         return true;
     }
 
-    initiator.prototype.hasProxy = function(proxy) {
+    EasyProxy.prototype.hasProxy = function(proxy) {
         return proxy in this.props.ruleMap;
     }
 
-    initiator.prototype.findProxy = function(host) {
+    EasyProxy.prototype.findProxy = function(host) {
         var routing = this.props.routing;
 
         for (;;) {
@@ -218,11 +219,11 @@ function FindProxyForURL(url, host) {
         }
     }
 
-    initiator.prototype.listProxies = function() {
+    EasyProxy.prototype.listProxies = function() {
         return this.props.proxies;
     }
 
-    initiator.prototype.addRule = function(proxy, rule) {
+    EasyProxy.prototype.addRule = function(proxy, rule) {
         var routing = this.props.routing;
         var find = routing[rule];
 
@@ -236,7 +237,7 @@ function FindProxyForURL(url, host) {
         return true;
     }
 
-    initiator.prototype.removeRule = function(proxy, rule) {
+    EasyProxy.prototype.removeRule = function(proxy, rule) {
         var routing = this.props.routing;
         var rules = this.props.ruleMap[proxy];
         var find = routing[rule];
@@ -250,11 +251,11 @@ function FindProxyForURL(url, host) {
         return true;
     }
 
-    initiator.prototype.hasRule = function(rule) {
+    EasyProxy.prototype.hasRule = function(rule) {
         return rule in this.props.routing;
     }
 
-    initiator.prototype.getRules = function(proxy) {
+    EasyProxy.prototype.getRules = function(proxy) {
         if (proxy !== null && proxy !== undefined) {
             return this.props.ruleMap[proxy];
         }
@@ -262,13 +263,13 @@ function FindProxyForURL(url, host) {
         return this.props.ruleMap;
     }
 
-    initiator.prototype.clearRules = function(proxy) {
+    EasyProxy.prototype.clearRules = function(proxy) {
         var ruleMap = this.props.ruleMap;
         var routing = this.props.routing;
         var rules = ruleMap[proxy];
 
         if (rules) {
-            for (let i = 0, l < rules.length; i++) {
+            for (let i = 0, l = rules.length; i < l; i++) {
                 let rule = rules[i];
                 delete routing[rule];
             }
@@ -292,7 +293,7 @@ function FindProxyForURL(url, host) {
         return true;
     }
 
-    initiator.prototype.listRules = function() {
+    EasyProxy.prototype.listRules = function() {
         var rules = [];
         var proxies = instance.props.proxies;
 
@@ -304,7 +305,7 @@ function FindProxyForURL(url, host) {
         return rules;
     }
 
-    initiator.prototype.destroy = function() {
+    EasyProxy.prototype.destroy = function() {
         this.props.ruleMap = {};
         this.props.routing = {};
         this.props.proxies = [];
@@ -312,5 +313,5 @@ function FindProxyForURL(url, host) {
         return true;
     }
     
-    return initiator;
+    return EasyProxy;
 })();
