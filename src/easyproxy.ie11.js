@@ -76,7 +76,7 @@ function FindProxyForURL(url, host) {
 
                 for (var n = 0; n < rules.length; n++) {
                     var r = rules[n];
-                    scripts.push(`    "${r}": ${id}`);
+                    scripts[n] = `    "${r}": ${id}`;
                 }
             }
         }
@@ -131,14 +131,14 @@ function FindProxyForURL(url, host) {
             return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
         }
 
-        if (rules.includes('*')) {
+        if (this.props.routing['*'] === proxy) {
             return `function FindProxyForURL(url, host) {\n    return "${proxy}";\n}\n`;
         }
 
         var scripts = [];
 
         for (var i = 0; i < rules.length; i++) {
-            scripts.push(`    "${rules[i]}": PROXY`);
+            scripts[i] = `    "${rules[i]}": PROXY`;
         }
 
         return `var PROXY = "${proxy}";\n\nvar RULES = {\n${scripts.join(',\n')}\n};\n${pacScript}`;;
@@ -168,7 +168,7 @@ function FindProxyForURL(url, host) {
                 }
 
                 routing[r] = proxy;
-                next.push(r);
+                next[n] = r;
             }
         }
 
@@ -262,15 +262,46 @@ function FindProxyForURL(url, host) {
         return this.props.ruleMap;
     }
 
-    initiator.prototype.purgeRules = function() {
+    initiator.prototype.clearRules = function(proxy) {
+        var ruleMap = this.props.ruleMap;
+        var routing = this.props.routing;
+        var rules = ruleMap[proxy];
+
+        if (rules) {
+            for (let i = 0, l < rules.length; i++) {
+                let rule = rules[i];
+                delete routing[rule];
+            }
+
+            ruleMap[proxy] = [];
+            return true;
+        }
+
+        if (proxy !== null && proxy !== undefined) {
+            return false;
+        }
+        
         var proxies = this.props.proxies;
 
         for (var i = 0; i < proxies.length; i++) {
             var proxy = proxies[i];
-            this.props.ruleMap[proxy] = [];
+            ruleMap[proxy] = [];
         }
 
         this.props.routing = {};
+        return true;
+    }
+
+    initiator.prototype.listRules = function() {
+        var rules = [];
+        var proxies = instance.props.proxies;
+
+        for (var i = 0; i < proxies.length; i++) {
+            var proxy = proxies[i];
+            rules[i] = this.props.ruleMap[proxy];
+        }
+
+        return rules;
     }
 
     initiator.prototype.destroy = function() {
