@@ -46,7 +46,6 @@ function FindProxyForURL(url, host) {
     }
 
     EasyProxy.getScript = function(instances) {
-        console.log(instances);
         var proxies = [];
         var scripts = [];
 
@@ -86,7 +85,7 @@ function FindProxyForURL(url, host) {
             return 'function FindProxyForURL(url, host) {\n    return "DIRECT";\n}\n';
         }
 
-        return proxies.join('\n') + '\n\nvar RULES = {\n' + scripts.join(',\n') + '\n};\n' + EasyProxy.#pacScript;
+        return proxies.join('\n') + '\n\nvar RULES = {\n' + scripts.join(',\n') + '\n};\n' + pacScript;
     }
 
     EasyProxy.makeRule = function(host) {
@@ -139,10 +138,10 @@ function FindProxyForURL(url, host) {
         var scripts = [];
 
         for (var i = 0; i < rules.length; i++) {
-            scripts[i] = `    "${rules[i]}": PROXY`;
+            scripts[i] = '    "' + rules[i] + '": PROXY';
         }
 
-        return 'var PROXY = "' + proxy + '";\n\nvar RULES = {\n' + scripts.join(',\n') + '\n};\n' + EasyProxy.#pacScript;
+        return 'var PROXY = "' + proxy + '";\n\nvar RULES = {\n' + scripts.join(',\n') + '\n};\n' + pacScript;
     }
 
     EasyProxy.prototype.addProxy = function(proxy, rules) {
