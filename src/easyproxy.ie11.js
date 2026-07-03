@@ -256,8 +256,14 @@ function FindProxyForURL(url, host) {
     }
 
     EasyProxy.prototype.getRules = function(proxy) {
+        let rules = this.props.ruleMap[proxy];
+
+        if (rules) {
+            return rules;
+        }
+
         if (proxy !== null && proxy !== undefined) {
-            return this.props.ruleMap[proxy];
+            return [];
         }
 
         return this.props.ruleMap;
